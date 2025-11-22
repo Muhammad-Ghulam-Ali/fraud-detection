@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FraudGuard AI - E-commerce Fraud Detection</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-shield-halved"></i>
+            <span>FraudGuard AI</span>
+        </div>
+        
+        <nav class="nav-menu">
+            <a href="#" class="nav-item active" data-page="dashboard">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" data-page="transactions">
+                <i class="fas fa-credit-card"></i>
+                <span>Transactions</span>
+            </a>
+            <a href="#" class="nav-item" data-page="analytics">
+                <i class="fas fa-chart-pie"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="#" class="nav-item" data-page="test">
+                <i class="fas fa-flask"></i>
+                <span>Test Model</span>
+            </a>
+            <a href="#" class="nav-item" data-page="model">
+                <i class="fas fa-brain"></i>
+                <span>Model Info</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <div class="user-name">Admin User</div>
+                    <div class="user-role">Security Analyst</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1 class="page-title">Dashboard Overview</h1>
+                <div class="breadcrumb">
+                    <span>Home</span>
+                    <i class="fas fa-chevron-right"></i>
+                    <span class="current">Dashboard</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search transactions...">
+                </div>
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Page -->
+        <div class="page-content" id="dashboard-page">
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-label">Total Transactions</div>
+                        <div class="stat-value" data-target="15847">0</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> 12.5% from last month
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-label">Fraud Detected</div>
+                        <div class="stat-value" data-target="342">0</div>
+                        <div class="stat-change negative">
+                            <i class="fas fa-arrow-down"></i> 8.2% from last month
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-label">Prevention Rate</div>
+                        <div class="stat-value"><span data-target="97">0</span>.<span data-target="8">0</span>%</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> 2.1% from last month
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-label">Money Saved</div>
+                        <div class="stat-value">$<span data-target="2847">0</span>K</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> 15.3% from last month
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Fraud Detection Trends</h3>
+                        <select class="chart-filter">
+                            <option>Last 7 Days</option>
+                            <option>Last 30 Days</option>
+                            <option>Last 3 Months</option>
+                        </select>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Risk Distribution</h3>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="riskChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Transactions -->
+            <div class="table-card">
+                <div class="table-header">
+                    <h3>High-Risk Transactions</h3>
+                    <button class="btn-secondary">View All</button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table" id="transactionTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Date & Time</th>
+                                <th>Amount</th>
+                                <th>Customer</th>
+                                <th>Risk Score</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Live Feed -->
+            <div class="live-feed-card">
+                <div class="feed-header">
+                    <h3>
+                        <span class="pulse-dot"></span>
+                        Live Transaction Feed
+                    </h3>
+                </div>
+                <div class="feed-container" id="liveFeed">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Transactions Page -->
+        <div class="page-content hidden" id="transactions-page">
+            <div class="filters-card">
+                <h3>Filter Transactions</h3>
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label>Date Range</label>
+                        <input type="date" class="filter-input">
+                    </div>
+                    <div class="filter-group">
+                        <label>Amount Range</label>
+                        <input type="number" placeholder="Min" class="filter-input">
+                    </div>
+                    <div class="filter-group">
+                        <label>Risk Level</label>
+                        <select class="filter-input">
+                            <option>All Levels</option>
+                            <option>High Risk</option>
+                            <option>Medium Risk</option>
+                            <option>Low Risk</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Status</label>
+                        <select class="filter-input">
+                            <option>All Status</option>
+                            <option>Flagged</option>
+                            <option>Approved</option>
+                            <option>Blocked</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-primary">Apply Filters</button>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header">
+                    <h3>All Transactions</h3>
+                    <div class="table-actions">
+                        <button class="btn-secondary"><i class="fas fa-download"></i> Export</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Date & Time</th>
+                                <th>Amount</th>
+                                <th>Customer</th>
+                                <th>Location</th>
+                                <th>Risk Score</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allTransactionsTable">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Page -->
+        <div class="page-content hidden" id="analytics-page">
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Model Accuracy Metrics</h3>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="accuracyChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Confusion Matrix</h3>
+                    </div>
+                    <div class="confusion-matrix">
+                        <div class="matrix-row">
+                            <div class="matrix-cell header">Predicted Fraud</div>
+                            <div class="matrix-cell true-positive">TP: 328</div>
+                            <div class="matrix-cell false-positive">FP: 14</div>
+                        </div>
+                        <div class="matrix-row">
+                            <div class="matrix-cell header">Predicted Safe</div>
+                            <div class="matrix-cell false-negative">FN: 8</div>
+                            <div class="matrix-cell true-negative">TN: 15497</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Common Fraud Patterns</h3>
+                </div>
+                <div class="patterns-grid">
+                    <div class="pattern-item">
+                        <div class="pattern-icon"><i class="fas fa-clock"></i></div>
+                        <div class="pattern-info">
+                            <h4>Unusual Hours</h4>
+                            <p>Transactions between 2-5 AM</p>
+                            <div class="pattern-bar" style="--width: 75%"></div>
+                        </div>
+                    </div>
+                    <div class="pattern-item">
+                        <div class="pattern-icon"><i class="fas fa-location-dot"></i></div>
+                        <div class="pattern-info">
+                            <h4>Location Anomaly</h4>
+                            <p>Multiple countries in 24hrs</p>
+                            <div class="pattern-bar" style="--width: 68%"></div>
+                        </div>
+                    </div>
+                    <div class="pattern-item">
+                        <div class="pattern-icon"><i class="fas fa-money-bill-wave"></i></div>
+                        <div class="pattern-info">
+                            <h4>High Value</h4>
+                            <p>Transactions over $5000</p>
+                            <div class="pattern-bar" style="--width: 82%"></div>
+                        </div>
+                    </div>
+                    <div class="pattern-item">
+                        <div class="pattern-icon"><i class="fas fa-repeat"></i></div>
+                        <div class="pattern-info">
+                            <h4>Rapid Succession</h4>
+                            <p>Multiple transactions in minutes</p>
+                            <div class="pattern-bar" style="--width: 61%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Model Page -->
+        <div class="page-content hidden" id="test-page">
+            <div class="test-container">
+                <div class="test-form-card">
+                    <h3>Test Transaction</h3>
+                    <form id="testForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Transaction Amount ($)</label>
+                                <input type="number" id="testAmount" placeholder="500.00" required step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>Customer Age</label>
+                                <input type="number" id="testAge" placeholder="35" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Transaction Hour</label>
+                                <input type="number" id="testHour" min="0" max="23" placeholder="14" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Location Risk</label>
+                                <select id="testLocation" required>
+                                    <option value="low">Low Risk</option>
+                                    <option value="medium">Medium Risk</option>
+                                    <option value="high">High Risk</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Device Type</label>
+                                <select id="testDevice" required>
+                                    <option value="mobile">Mobile</option>
+                                    <option value="desktop">Desktop</option>
+                                    <option value="tablet">Tablet</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Payment Method</label>
+                                <select id="testPayment" required>
+                                    <option value="credit">Credit Card</option>
+                                    <option value="debit">Debit Card</option>
+                                    <option value="paypal">PayPal</option>
+                                    <option value="crypto">Cryptocurrency</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary btn-large">
+                            <i class="fas fa-robot"></i> Analyze Transaction
+                        </button>
+                    </form>
+                </div>
+
+                <div class="test-result-card" id="testResult" style="display: none;">
+                    <h3>Analysis Result</h3>
+                    <div class="result-score">
+                        <div class="score-circle" id="scoreCircle">
+                            <svg viewBox="0 0 100 100">
+                                <defs>
+                                    <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#48bb78;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#38a169;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <circle cx="50" cy="50" r="45" class="score-bg"></circle>
+                                <circle cx="50" cy="50" r="45" class="score-fill" id="scoreFill"></circle>
+                            </svg>
+                            <div class="score-text">
+                                <span class="score-value" id="scoreValue">0</span>%
+                                <span class="score-label">Risk Score</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result-status" id="resultStatus">
+                        <!-- Populated by JS -->
+                    </div>
+                    <div class="result-factors">
+                        <h4>Risk Factors</h4>
+                        <div id="riskFactors">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Model Info Page -->
+        <div class="page-content hidden" id="model-page">
+            <div class="model-grid">
+                <div class="model-card">
+                    <div class="model-header">
+                        <i class="fas fa-brain"></i>
+                        <h3>Model Information</h3>
+                    </div>
+                    <div class="model-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Algorithm</span>
+                            <span class="detail-value">Random Forest Classifier</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Version</span>
+                            <span class="detail-value">v2.3.1</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Last Updated</span>
+                            <span class="detail-value">Nov 15, 2024</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Training Samples</span>
+                            <span class="detail-value">284,592</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Features</span>
+                            <span class="detail-value">32 Features</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <i class="fas fa-chart-bar"></i>
+                        <h3>Performance Metrics</h3>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-value">98.2%</div>
+                            <div class="metric-label">Accuracy</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">97.6%</div>
+                            <div class="metric-label">Precision</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">96.8%</div>
+                            <div class="metric-label">Recall</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">97.2%</div>
+                            <div class="metric-label">F1-Score</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="model-card full-width">
+                    <div class="model-header">
+                        <i class="fas fa-ranking-star"></i>
+                        <h3>Feature Importance</h3>
+                    </div>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <span class="feature-name">Transaction Amount</span>
+                            <div class="feature-bar" style="--importance: 95%">
+                                <span class="feature-percent">95%</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-name">Transaction Time</span>
+                            <div class="feature-bar" style="--importance: 87%">
+                                <span class="feature-percent">87%</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-name">Location Anomaly</span>
+                            <div class="feature-bar" style="--importance: 82%">
+                                <span class="feature-percent">82%</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-name">Customer History</span>
+                            <div class="feature-bar" style="--importance: 76%">
+                                <span class="feature-percent">76%</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-name">Device Fingerprint</span>
+                            <div class="feature-bar" style="--importance: 68%">
+                                <span class="feature-percent">68%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
